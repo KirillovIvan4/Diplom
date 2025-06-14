@@ -1,0 +1,12 @@
+{% extends 'table_reservation/base.html' %}
+{% block title %}Вход на сайт{% endblock %}
+{% block content %}
+<div class="container mt-5">Вход на сайт
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Войти</button>
+        <a class="btn btn-success" href="{% url 'users:password_recovery' %}">Востановить пароль</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+
+{% extends 'table_reservation/base.html' %}
+
+{% block title %}Главная - Ресторан "Гастроном"{% endblock %}
+
+{% block content %}
+<div class="hero-section mb-5">
+    <div class="hero-content text-center text-white bg-dark bg-opacity-75 p-5 rounded">
+        <h1 class="display-4">Добро пожаловать в ресторан "Гастроном"</h1>
+        <p class="lead">Искусство вкуса в каждом блюде</p>
+        <a class="btn btn-primary btn-lg">Забронировать столик</a>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-egg-fried fs-1 text-primary"></i>
+                <h3 class="card-title">Авторская кухня</h3>
+                <p class="card-text">Наши шеф-повара создают уникальные блюда, сочетающие традиции и инновации.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-wine fs-1 text-primary"></i>
+                <h3 class="card-title">Винная карта</h3>
+                <p class="card-text">Более 200 наименований вин со всего мира для идеального сочетания с блюдами.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-people fs-1 text-primary"></i>
+                <h3 class="card-title">События</h3>
+                <p class="card-text">Организация банкетов, свадеб, корпоративов и других мероприятий.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Свяжитесь с нами</h2>
+
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Ваше имя</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Сообщение</label>
+                <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <h2>Наше местоположение</h2>
+        <div class="ratio ratio-16x9 mb-3">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.373789035729!2d37.61763331593084!3d55.75199998055136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b54a5a738fa419%3A0x7c347d506f52311f!2z0JzQvtGB0LrQvtCy0YHQutC40Lkg0JrRgNC10LzQu9GM!5e0!3m2!1sru!2sru!4v1620000000000!5m2!1sru!2sru" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <p><i class="bi bi-geo-alt-fill"></i> Ул. Ресторанная, 123, Москва</p>
+        <p><i class="bi bi-telephone-fill"></i> +7 (123) 456-78-90</p>
+        <p><i class="bi bi-envelope-fill"></i> info@gastronom.ru</p>
+    </div>
+</div>
+{% endblock %}

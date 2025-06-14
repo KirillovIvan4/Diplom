@@ -1,0 +1,17 @@
+{%extends 'online_store/base.html' %}
+{% block title %}Регистрация на сайте{% endblock %}
+{% block show_store%} {% include 'online_store/menu.html' %}  {% endblock %}
+{% block content %}
+<div class="container mt-5">Регистрация на сайте<form method="post">
+    {% if user.is_authenticated %}
+    Вы зарегистрированны!!!
+    {% else %}
+
+        '{% csrf_token %}'
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        
+    </form>
+</div>
+{% endif %}
+{% endblock %}

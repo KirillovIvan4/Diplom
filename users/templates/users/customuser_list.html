@@ -1,0 +1,42 @@
+{%extends 'online_store/base.html' %}
+{% block title %}Котегории{% endblock %}
+{% block show_store%} {% include 'online_store/menu.html' %}  {% endblock %}
+{% block content %}
+<h1 class="text-center"> Главная </h1>
+<h6 class="text-center text-muted mb-2">
+    Вы находитесь на сайте, преднозначеном для продажи товаров
+</h6>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            {% for user in object_list%}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <a href=#>{{user.email}}</a>
+                    {%if user.is_active%}
+                    <h6 class="text-center text-muted mb-2">
+    Не заблокирован
+</h6>
+            {%else%}
+                  <h6 class="text-center text-muted mb-2">
+     Заблокирован
+</h6>
+                    {% endif %}
+                    {%if user.is_active%}
+                                <a type="button" class="btn btn-danger btn-sm"
+                                   href="{% url 'users:block_user' user.pk %}">Заблокировать</a>
+                            {% else %}
+                                <a type="button" class="btn btn-success btn-sm"
+                                   href="{% url 'users:block_user' user.pk %}">Разблокировать</a>
+                            {% endif %}
+                    <a href=# role="button"
+                       class="btn btn-secondary">Список продуктов</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

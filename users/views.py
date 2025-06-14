@@ -10,9 +10,8 @@ from django.contrib.auth.decorators import permission_required
 from django.core.mail import send_mail
 from django.contrib.auth.models import Group
 from config.settings import EMAIL_HOST_USER
-from online_store.forms import StyleFormMixin
 from .forms import CustomUserCreationForm, PasswordRecoveryForm
-from .models import CustomUser
+from .models import User
 import logging
 
 
@@ -25,31 +24,31 @@ class RegisterView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('online_store:product_list')
 
-    def form_valid(self, form):
-        user = form.save()
-        user.is_active = False
-        token = secrets.token_hex(16)
-        host = self.request.get_host()
-        user.token = token
-        user.save()
-        url = f'http://{host}/users/email-confirm/{token}'
-        send_mail(
-            subject='Подтверждение почты',
-            message=f"Перейдите по ссылке для подтверждения почты {url}",
-            from_email=EMAIL_HOST_USER,
-            recipient_list=[user.email],
-        )
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     user = form.save()
+    #     user.is_active = False
+    #     token = secrets.token_hex(16)
+    #     host = self.request.get_host()
+    #     user.token = token
+    #     user.save()
+    #     url = f'http://{host}/users/email-confirm/{token}'
+    #     send_mail(
+    #         subject='Подтверждение почты',
+    #         message=f"Перейдите по ссылке для подтверждения почты {url}",
+    #         from_email=EMAIL_HOST_USER,
+    #         recipient_list=[user.email],
+    #     )
+    #     return super().form_valid(form)
 
 
 def email_verification(request, token):
-    user = get_object_or_404(CustomUser, token=token)
+    user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
     return redirect(reverse("users:login"))
 
-class PasswordRecoveryView(TemplateView,PasswordResetView, StyleFormMixin):
-    model = CustomUser
+class PasswordRecoveryView(TemplateView,PasswordResetView):
+    model = User
     template_name = 'users/password_recovery.html'
     form_class = PasswordRecoveryForm
     success_url = reverse_lazy('users:login')
@@ -58,7 +57,7 @@ class PasswordRecoveryView(TemplateView,PasswordResetView, StyleFormMixin):
 
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email')
-        user = CustomUser.objects.get(email=email)
+        user = User.objects.get(email=email)
         code = secrets.token_hex(8)
         user.set_password(code)
         user.save()
@@ -76,13 +75,13 @@ class PasswordRecoveryView(TemplateView,PasswordResetView, StyleFormMixin):
 
 @permission_required("users.view_user")
 def block_user(self, pk):
-    user = CustomUser.objects.get(pk=pk)
+    user = User.objects.get(pk=pk)
     user.is_active = {user.is_active: False, not user.is_active: True}[True]
     user.save()
     return redirect(reverse("users:user_list"))
 
-class CustomUserListView(ListView):
-    model = CustomUser
+class UserListView(ListView):
+    model = User
     context_object_name = 'User'
 
     def dispatch(self, request, *args, **kwargs):
@@ -95,7 +94,7 @@ class CustomUserListView(ListView):
         Исключаем суперпользователей и пользователей из группы "Менеджеры".
         """
         # Получаем всех пользователей, кроме суперпользователей
-        queryset = CustomUser.objects.filter(is_superuser=False)
+        queryset = User.objects.filter(is_superuser=False)
 
         # Исключаем пользователей из группы "Менеджеры"
         manager_group = Group.objects.get(name="Менеджеры")

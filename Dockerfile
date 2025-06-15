@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
     gcc \
     python3-dev \
     libpq-dev \
+    libjpeg-dev \  # Добавлено для Pillow
+    zlib1g-dev \   # Добавлено для Pillow
     && rm -rf /var/lib/apt/lists/*
 
 # Копируем и устанавливаем Python зависимости

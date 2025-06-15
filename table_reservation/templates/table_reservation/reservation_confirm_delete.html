@@ -1,0 +1,29 @@
+{% extends 'table_reservation/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Отмена бронирования</h2>
+    
+    <div class="alert alert-warning">
+        <p>Вы уверены, что хотите отменить это бронирование?</p>
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Бронирование #{{ object.id }}</h5>
+                <p class="card-text">
+                    <strong>Столик:</strong> №{{ object.table.number }}<br>
+                    <strong>Дата:</strong> {{ object.date }}<br>
+                    <strong>Время:</strong> {{ object.time }}<br>
+                    <strong>Гостей:</strong> {{ object.guests }}
+                </p>
+            </div>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Да, отменить бронирование</button>
+            <a href="{% url 'table_reservation:reservation_list' %}" class="btn btn-secondary">Нет, вернуться назад</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

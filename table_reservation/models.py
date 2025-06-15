@@ -49,6 +49,7 @@ class Reservation(models.Model):
     comment = models.TextField(blank=True, verbose_name='Комментарий')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     is_confirmed = models.BooleanField(default=False, verbose_name='Подтверждено')
+    is_active = models.BooleanField(default=True, verbose_name='Активно')
 
     class Meta:
         verbose_name = 'Бронирование'

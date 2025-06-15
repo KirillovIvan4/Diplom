@@ -14,4 +14,5 @@ urlpatterns = [
     path('check-availability/', views.check_availability, name='check_availability'),
     # path('about_the_restaurant', views.about_the_restaurant, name='about_the_restaurant'),
     # path('booking_page', views.booking_page, name='booking_page'),
+
 ]

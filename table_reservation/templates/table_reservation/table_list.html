@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'table_reservation/base.html' %}
+{% block title %}Столы{% endblock %}
+{% block content %}
+<h1 class="text-center"> Главная </h1>
+<h6 class="text-center text-muted mb-2">
+    Вы находитесь на сайте, преднозначеном для продажи товаров
+</h6>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
 
-</body>
-</html>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            {% for table in object_list%}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <a href="">{{table.number}}</a>
+
+                    <a href="" role="button" class="btn btn-secondary">Список продуктов</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

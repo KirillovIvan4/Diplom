@@ -22,11 +22,11 @@ def personal_account(request):
 class RegisterView(CreateView):
     template_name = 'users/register.html'
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('online_store:product_list')
+    success_url = reverse_lazy('table_reservation:home')
 
-    # def form_valid(self, form):
-    #     user = form.save()
-    #     user.is_active = False
+    def form_valid(self, form):
+        user = form.save()
+        user.is_active = True
     #     token = secrets.token_hex(16)
     #     host = self.request.get_host()
     #     user.token = token
@@ -38,7 +38,7 @@ class RegisterView(CreateView):
     #         from_email=EMAIL_HOST_USER,
     #         recipient_list=[user.email],
     #     )
-    #     return super().form_valid(form)
+        return super().form_valid(form)
 
 
 def email_verification(request, token):

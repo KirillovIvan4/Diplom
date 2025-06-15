@@ -27,7 +27,7 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
     model = Reservation
     form_class = ReservationForm
     template_name = 'table_reservation/reservation_form.html'
-    success_url = reverse_lazy('reservation_list')
+    success_url = reverse_lazy('table_reservation:home')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -44,9 +44,15 @@ class ReservationListView(LoginRequiredMixin, ListView):
     model = Reservation
     template_name = 'table_reservation/reservation_list.html'
     context_object_name = 'reservations'
+    paginate_by = 10
 
     def get_queryset(self):
-        return Reservation.objects.filter(user=self.request.user).order_by('-date', 'time')
+        return (
+            Reservation.objects
+            .filter(user=self.request.user)
+            .select_related('table')  # Оптимизация запроса
+            .order_by('-date', 'time')
+        )
 
 
 class ReservationUpdateView(LoginRequiredMixin, UpdateView):
@@ -55,25 +61,25 @@ class ReservationUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'table_reservation/reservation_form.html'
     success_url = reverse_lazy('reservation_list')
 
-    def form_valid(self, form):
-        messages.success(self.request, 'Бронирование успешно обновлено!')
-        return super().form_valid(form)
-
     def get_queryset(self):
-        return Reservation.objects.filter(user=self.request.user)
+        # Временно показываем все бронирования для теста
+        return Reservation.objects.all().order_by('-date', 'time')
 
 
-class ReservationDeleteView(LoginRequiredMixin, DeleteView):
+class ReservationDeleteView(DeleteView):
     model = Reservation
     template_name = 'table_reservation/reservation_confirm_delete.html'
-    success_url = reverse_lazy('reservation_list')
+    success_url = reverse_lazy('table_reservation:reservation_list')
 
-    def form_valid(self, form):
-        messages.success(self.request, 'Бронирование успешно отменено!')
-        return super().form_valid(form)
-
-    def get_queryset(self):
-        return Reservation.objects.filter(user=self.request.user)
+    def delete(self, request, *args, **kwargs):
+        """
+        Вместо удаления меняем статус is_active на False
+        """
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.save()
+        messages.success(request, 'Бронирование успешно отменено')
+        return super().get(request, *args, **kwargs)
 
 
 def check_availability(request):

@@ -22,7 +22,7 @@
   - Django 4.2
   - Django REST Framework
   - PostgreSQL
-  - Redis (для Celery)
+  
 
 - **Frontend:**
   - HTML5, CSS3

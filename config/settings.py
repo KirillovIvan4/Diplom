@@ -41,15 +41,17 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'users.apps.UsersConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'table_reservation',
-    'users',
-]
+    ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,7 +60,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -172,18 +173,7 @@ REST_FRAMEWORK = {
     # ]
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',  # Замените на адрес вашего фронтенд-сервера
-]
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',  # Замените на адрес вашего фронтенд-сервера
-
-]
-
-CORS_ALLOW_ALL_ORIGINS = False
 
 # Настройки для Celery
 
@@ -213,3 +203,14 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 ADMIN_URL = 'admin/'
+# Разрешить все домены (только для разработки!)
+CORS_ALLOW_ALL_ORIGINS = True
+
+# ИЛИ точечно разрешить конкретные домены (для продакшена)
+CORS_ALLOWED_ORIGINS = [
+    "https://frontend.com",
+    "http://localhost:3000",
+]
+
+ADMIN_URL = 'admin/'
+

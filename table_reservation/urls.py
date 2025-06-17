@@ -5,7 +5,7 @@ app_name = 'table_reservation'
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('/about_the_restaurant', views.about_the_restaurant, name='about_the_restaurant'),
+    path('about_the_restaurant/', views.about_the_restaurant, name='about_the_restaurant'),
     path('tables/', views.TableListView.as_view(), name='table_list'),
     path('reserve/', views.ReservationCreateView.as_view(), name='reservation_create'),
     path('my-reservations/', views.ReservationListView.as_view(), name='reservation_list'),
